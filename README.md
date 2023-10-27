@@ -4,7 +4,7 @@ Fake News Detection Model using TensorFlow in Python
  
 Fake News means incorporating information that leads people to the wrong paths. It can have real-world adverse effects that aim to intentionally deceive, gain attention, manipulate public opinion, or damage reputation. It is necessary to detect fake news mainly for media outlets to have the ability to attract viewers to their website to generate online advertising revenue.
 
-Fake News Detection Model using TensorFlow in Python
+#  Fake News Detection Model using TensorFlow in Python
 In this article, we are going to develop a Deep learning model using Tensorflow and use this model to detect whether the news is fake or not.
 
 We will be using fake_news_dataset, which contains News text and corresponding label (FAKE or REAL). Dataset can be downloaded from this link.
@@ -17,7 +17,7 @@ Preprocessing Dataset
 Generating Word Embeddings
 Model Architecture
 Model Evaluation and Prediction
-Importing Libraries and Dataset
+#  Importing Libraries and Dataset
 The libraries we will be using are :
 
 NumPy: To perform different mathematical functions. 
@@ -45,22 +45,20 @@ tf.disable_eager_execution()
 # Reading the data 
 data = pd.read_csv("news.csv") 
 data.head() 
-Output : 
-
-Fake News Detection Model using TensorFlow
+ 
  
 
-Preprocessing Dataset
+#  Preprocessing Dataset
 As we can see the dataset contains one unnamed column. So we drop that column from the dataset.
 
 data = data.drop(["Unnamed: 0"], axis=1) 
 data.head(5) 
-Output : 
-
-Fake News Detection Model using TensorFlow
  
 
-Data Encoding
+ 
+ 
+
+# Data Encoding
 It converts the categorical column (label in out case) into numerical values.
 
 # encoding the labels 
@@ -76,7 +74,7 @@ padding_type = 'post'
 oov_tok = "<OOV>"
 training_size = 3000
 test_portion = .1
-Tokenization 
+# Tokenization 
 This process divides a large piece of continuous text into distinct units or tokens basically. Here we use columns separately for a temporal basis as a pipeline just for good accuracy.
 
 title = [] 
@@ -86,7 +84,7 @@ for x in range(training_size):
     title.append(data['title'][x]) 
     text.append(data['text'][x]) 
     labels.append(data['label'][x]) 
-Applying Tokenization
+# Applying Tokenization
 
 tokenizer1 = Tokenizer() 
 tokenizer1.fit_on_texts(title) 
@@ -100,7 +98,7 @@ training_sequences1 = padded1[split:training_size]
 test_sequences1 = padded1[0:split] 
 test_labels = labels[0:split] 
 training_labels = labels[split:training_size] 
-Generating Word Embedding
+# Generating Word Embedding
 It allows words with similar meanings to have a similar representation. Here each individual word is represented as real-valued vectors in a predefined vector space. For that we will use glove.6B.50d.txt. It has the predefined vector space for words. You can download the file using this link.
 
 embeddings_index = {} 
@@ -117,7 +115,7 @@ for word, i in word_index1.items():
     embedding_vector = embeddings_index.get(word) 
     if embedding_vector is not None: 
         embeddings_matrix[i] = embedding_vector 
-Creating Model Architecture
+#  Creating Model Architecture
 Now it’s time to introduce TensorFlow to create the model.  Here we use the TensorFlow embedding technique with Keras Embedding Layer where we map original input data into some set of real-valued dimensions.
 
 model = tf.keras.Sequential([ 
@@ -134,9 +132,7 @@ model = tf.keras.Sequential([
 model.compile(loss='binary_crossentropy', 
               optimizer='adam', metrics=['accuracy']) 
 model.summary() 
-Output : 
-
-Fake News Detection Model using TensorFlow
+ 
  
 
 num_epochs = 50
@@ -151,9 +147,6 @@ history = model.fit(training_padded, training_labels,
                     validation_data=(testing_padded, 
                                      testing_labels),  
                     verbose=2) 
-Output : 
-
-Fake News Detection Model using TensorFlow
  
 
 Model Evaluation and Prediction
